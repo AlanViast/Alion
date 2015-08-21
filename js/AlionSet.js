@@ -1,36 +1,46 @@
-;(function(){
+;
+(function() {
   'use strict';
-  var MySet = function(){};
-  MySet.prototype = {
+
+  var Alion = {}
+  Alion.Set = function() {};
+
+  Alion.Set.prototype = {
     elements: [],
-    add: function(){
+    add: function() {
       var targetArr = this;
       var arg = this._toArray(arguments);
-      arg.forEach(function( value ){
-        if( !targetArr.contains( value ) ) {
-          targetArr.push( value );
+      arg.forEach(function(value) {
+        if (!targetArr.contains(value)) {
+          targetArr.push(value);
         }
       });
     },
-    push: function( item ){
-      this.elements.push( item );
+    push: function(item) {
+      this.elements.push(item);
     },
-    remove: function(){
+    remove: function() {
       var arg = this._toArray(arguments);
-      this.elements = this.elements.filter(function( value ){
-        return -1 === arg.indexOf( value );
+      this.elements = this.elements.filter(function(value) {
+        return -1 === arg.indexOf(value);
       });
     },
-    contains: function( item ){
+    contains: function(item) {
       return -1 !== this.elements.indexOf(item);
     },
-    toList: function(){
+    toList: function() {
       return this._toArray(this.elements);
     },
-    _toArray: function( args ){
+    size: function() {
+      return this.elements.length;
+    },
+    forEach: function(fn) {
+      this.elements.forEach(fn);
+    },
+    _toArray: function(args) {
       var arg = Array.prototype.slice.call(args);
       return arg;
     }
   };
-  window.MySet = MySet;
+  window.Alion = Alion;
 })();
