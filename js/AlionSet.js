@@ -1,29 +1,36 @@
 ;(function(){
+  'use strict';
   var MySet = function(){};
   MySet.prototype = {
-    target: {},
-    size: 0,
-    add: function(item){
-      if( item ) {
-        this.target[item] = true;
-        this.size++;
-      }
-      return !!item;
+    elements: [],
+    add: function(){
+      var targetArr = this;
+      var arg = this._toArray(arguments);
+      arg.forEach(function( value ){
+        if( !targetArr.contains( value ) ) {
+          targetArr.push( value );
+        }
+      });
     },
-    remove: function(item){
-      if( this.target[item] ){
-        this.size--;
-        delete this.target[item];
-      }
+    push: function( item ){
+      this.elements.push( item );
+    },
+    remove: function(){
+      var arg = this._toArray(arguments);
+      this.elements = this.elements.filter(function( value ){
+        return -1 === arg.indexOf( value );
+      });
+    },
+    contains: function( item ){
+      return -1 !== this.elements.indexOf(item);
     },
     toList: function(){
-      var temp = [];
-      for( var item in this.target ){
-        if( this.target.hasOwnProperty(item) ){
-          temp.push(item);
-        }
-      }
-      return temp;
+      return this._toArray(this.elements);
+    },
+    _toArray: function( args ){
+      var arg = Array.prototype.slice.call(args);
+      return arg;
     }
   };
+  window.MySet = MySet;
 })();
